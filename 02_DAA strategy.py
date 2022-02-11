@@ -4,7 +4,7 @@ from dateutil.relativedelta import relativedelta
 import pandas as pd
 import telegram
 
-token = '5163420064:AAFOOe-VLsq-aTzx20gktkORwbd5LtycIXU'
+token = 'token'
 bot = telegram.Bot(token=token)
 id = bot.getUpdates()[-1].message.chat.id
 
