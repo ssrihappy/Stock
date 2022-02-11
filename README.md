@@ -1,6 +1,6 @@
 # Stock(Quantitative tools)
 
-## 1. Market timing Alarm
+## 1. Market Timing Alarm
 <img src="/pic/01_MT.jpg" width="50%" height="50%"></img><br/>
 
 [Manual]
