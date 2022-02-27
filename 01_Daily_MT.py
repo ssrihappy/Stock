@@ -4,9 +4,14 @@ from dateutil.relativedelta import relativedelta
 import pandas as pd
 import telegram
 
+
+# token = your token
+# id = your chat id
+# v_0.1, bug fixed_220228
+
 token = 'token'
 bot = telegram.Bot(token=token)
-id = bot.getUpdates()[-1].message.chat.id
+
 
 index = ['^IXIC', '^GSPC', '^DJI', '^KS11', '^KQ11', 'BTC-USD']
 ticker = ['NASDAQ', 'S&P500', 'DOW', 'KOSPI', 'KOSDAQ', 'BTC']
@@ -21,9 +26,9 @@ def cls_prices(ticker, mvday, day):
     return sma, price
 
 for i in index:
-    a_3 = cls_prices(i, 3, 1)[0]/cls_prices(i, 3, 1)[1] -1
-    a_5 = cls_prices(i, 5, 1)[0]/cls_prices(i, 5, 1)[1] -1
-    a_10 = cls_prices(i, 10, 1)[0]/cls_prices(i, 10, 1)[1] -1
+    a_3 = cls_prices(i, 3, 1)[1]/cls_prices(i, 3, 1)[0] -1
+    a_5 = cls_prices(i, 5, 1)[1]/cls_prices(i, 5, 1)[0] -1
+    a_10 = cls_prices(i, 10, 1)[1]/cls_prices(i, 10, 1)[0] -1
     score = 0
     if a_3 and a_5 and a_10 >0:
         signal = 'Buy'
@@ -44,7 +49,10 @@ for i in index:
 mt_df.index = ['NASDAQ', 'S&P500', 'DOW', 'KOSPI', 'KOSDAQ', 'BTC']
 mt_msg = mt_df.sort_values(by=['Ticker'], axis=0).to_string()
 
-us_score = str((mt_df.iloc[0]['Score'] + mt_df.iloc[1]['Score'] + mt_df.iloc[2]['Score'])/3)
-kr_score = str((mt_df.iloc[3]['Score'] + mt_df.iloc[4]['Score'])/2)
+us_score = str(round((mt_df.iloc[0]['Score'] + mt_df.iloc[1]['Score'] + mt_df.iloc[2]['Score'])/3, 1))
+kr_score = str(round((mt_df.iloc[3]['Score'] + mt_df.iloc[4]['Score'])/2, 1))
 
-bot.sendMessage(chat_id=id, text=str(datetime.today().strftime('%Y-%m-%d %H:%M:%S')) + '\n' + '--------------------------' + '\n' + '| Market Timing information |'+ '\n' + 'US score :' + us_score + '\n' + 'KR score :' + kr_score + '\n' + '--------------------------' + '\n' + mt_msg + '\n' + '--------------------------')
+
+bot.sendMessage(chat_id='id', text=str(datetime.today().strftime('%Y-%m-%d %H:%M:%S')) + '\n' + '--------------------------' + '\n' + '| Market Timing information |'+ '\n' + 'US score :' + us_score + '\n' + 'KR score :' + kr_score + '\n' + '--------------------------' + '\n' + mt_msg + '\n' + '--------------------------')
+
+
