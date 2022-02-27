@@ -4,9 +4,12 @@ from dateutil.relativedelta import relativedelta
 import pandas as pd
 import telegram
 
+#token = your token
+#id = your chat id
+# v_0.1, bug fixed 22.02.28
+
 token = 'token'
 bot = telegram.Bot(token=token)
-id = bot.getUpdates()[-1].message.chat.id
 
 canary = ['VWO', 'BND']
 index = ['^IXIC', '^GSPC', '^DJI']
@@ -74,10 +77,10 @@ for l in defense:
     msg_def = defense_df.sort_values(by=['Score'], axis=0, ascending=False).to_string(index=False)
 
 if canary_df.iloc[0]['Score'] and canary_df.iloc[1]['Score'] > 0:
-    bot.sendMessage(chat_id=id, text=str(datetime.today().strftime('%Y-%m-%d %H:%M:%S'))+ '\n' + '\n' + canary_msg + '\n' + '---------------------------------------' + '\n' + 'Buy top 2 stocks in attack, 50%/50%' + '\n' + '---------------------------------------'+ '\n'+'\n' + msg_att)
+    bot.sendMessage(chat_id='id', text=str(datetime.today().strftime('%Y-%m-%d %H:%M:%S'))+ '\n' + '\n' + canary_msg + '\n' + '---------------------------------------' + '\n' + 'Buy top 2 stocks in attack, 50%/50%' + '\n' + '---------------------------------------'+ '\n'+'\n' + msg_att)
 
 elif canary_df.iloc[0]['Score'] or canary_df.iloc[1]['Score'] < 0:
-    bot.sendMessage(chat_id=id, text=str(datetime.today().strftime('%Y-%m-%d %H:%M:%S'))+ '\n' + '\n' + canary_msg + '\n' + '---------------------------------------' + '\n' + 'Buy the top 1 stock in defense, 100%' +'\n' + '---------------------------------------'+ '\n'+'\n' + msg_def)
+    bot.sendMessage(chat_id='id', text=str(datetime.today().strftime('%Y-%m-%d %H:%M:%S'))+ '\n' + '\n' + canary_msg + '\n' + '---------------------------------------' + '\n' + 'Buy the top 1 stock in defense, 100%' +'\n' + '---------------------------------------'+ '\n'+'\n' + msg_def)
 
 else:
-    bot.sendMessage(chat_id=id, text=str(datetime.today().strftime('%Y-%m-%d %H:%M:%S'))+ '\n' + 'Holding')
+    bot.sendMessage(chat_id='id', text=str(datetime.today().strftime('%Y-%m-%d %H:%M:%S'))+ '\n' + 'Holding')
